@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amma's Health Routine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F1;
+    --surface:#FFFFFF;
+    --surface-soft:#F3EEE4;
+    --primary:#2F5D50;
+    --primary-dark:#1F4038;
+    --primary-light:#E4EEE9;
+    --accent:#E7A33E;
+    --accent-light:#FCEBCB;
+    --accent-dark:#B87A1F;
+    --text:#2A2A26;
+    --text-muted:#726F65;
+    --text-faint:#9C998E;
+    --danger:#C1503F;
+    --danger-light:#FBE7E3;
+    --success:#3F8F5F;
+    --success-light:#E4F3EA;
+    --warn:#C68A1F;
+    --warn-light:#FCF0D8;
+    --border:#E9E2D3;
+    --radius-lg:22px;
+    --radius-md:16px;
+    --radius-sm:12px;
+    --shadow:0 2px 10px rgba(45,40,25,0.06);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,sans-serif;
+    min-height:100vh;
+  }
+  body.lang-ta, body.lang-ta input, body.lang-ta select, body.lang-ta textarea, body.lang-ta button{
+    font-family:'Noto Sans Tamil','Inter',sans-serif;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;}
+  #app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;position:relative;}
+  #screen{flex:1;padding:20px 18px 100px;overflow-y:auto;}
+  button{font-family:inherit;cursor:pointer;}
+  .btn{
+    border:none;border-radius:14px;padding:15px 20px;font-size:16px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+    transition:transform .1s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-accent{background:var(--accent);color:#3E2A05;}
+  .btn-ghost{background:var(--surface);color:var(--text);border:1.5px solid var(--border);}
+  .btn-danger-ghost{background:var(--danger-light);color:var(--danger);}
+  .btn-sm{padding:9px 14px;font-size:13px;border-radius:10px;width:auto;}
+  .card{background:var(--surface);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:14px;}
+  .card-soft{background:var(--surface-soft);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .muted{color:var(--text-muted);font-size:14px;}
+  .faint{color:var(--text-faint);font-size:12.5px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;background:var(--primary-light);color:var(--primary-dark);font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:20px;}
+  .pill-accent{background:var(--accent-light);color:var(--accent-dark);}
+  .pill-danger{background:var(--danger-light);color:var(--danger);}
+  label.field-label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin:12px 0 6px;}
+  input[type=text],input[type=number],input[type=time],input[type=date],select,textarea{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);
+    background:var(--surface);font-size:15px;color:var(--text);font-family:inherit;
+  }
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--primary);outline-offset:1px;}
+  textarea{resize:vertical;min-height:60px;}
+  .icon-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .safety-banner{background:var(--warn-light);border:1px solid #EAD7A8;border-radius:var(--radius-md);padding:14px 16px;font-size:13.5px;line-height:1.55;color:#5A420C;margin-bottom:16px;}
+  .safety-banner b{color:#3E2E08;}
+  #bottomnav{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:8px 4px 10px;max-width:480px;margin:0 auto;width:100%;}
+  .navitem{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;color:var(--text-faint);font-size:10.5px;font-weight:600;padding:6px 2px;border-radius:10px;}
+  .navitem .navicon{font-size:20px;}
+  .navitem.active{color:var(--primary);}
+  .navitem.active .navicon{transform:scale(1.08);}
+  .segmented{display:flex;background:var(--surface-soft);border-radius:12px;padding:3px;gap:2px;}
+  .segmented button{flex:1;border:none;background:none;padding:8px 6px;border-radius:9px;font-size:12.5px;font-weight:600;color:var(--text-muted);}
+  .segmented button.active{background:var(--surface);color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+  .checkitem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+  .checkitem:last-child{border-bottom:none;}
+  .checkbox{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;background:var(--surface);}
+  .checkbox.done{background:var(--primary);border-color:var(--primary);}
+  .progressbar{height:9px;background:var(--surface-soft);border-radius:8px;overflow:hidden;}
+  .progressbar>div{height:100%;background:var(--primary);border-radius:8px;transition:width .3s;}
+  .modal-overlay{position:fixed;inset:0;background:rgba(30,25,15,0.45);display:flex;align-items:flex-end;justify-content:center;z-index:50;}
+  .modal-sheet{background:var(--bg);width:100%;max-width:480px;max-height:92vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:24px 20px 28px;}
+  .wizard-overlay{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;flex-direction:column;max-width:480px;margin:0 auto;}
+  .wizard-body{flex:1;overflow-y:auto;padding:28px 22px;}
+  .wizard-foot{padding:16px 22px 26px;display:flex;gap:10px;border-top:1px solid var(--border);}
+  .dotrow{display:flex;gap:5px;margin-bottom:22px;}
+  .dotrow>div{flex:1;height:4px;border-radius:3px;background:var(--border);}
+  .dotrow>div.done{background:var(--primary);}
+  .empty-state{text-align:center;padding:34px 16px;color:var(--text-muted);}
+  .empty-state .navicon{font-size:34px;display:block;margin-bottom:8px;}
+  .toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .langtoggle{display:flex;background:var(--surface-soft);border-radius:20px;padding:3px;}
+  .langtoggle button{border:none;background:none;padding:6px 12px;border-radius:16px;font-size:12.5px;font-weight:700;color:var(--text-muted);}
+  .langtoggle button.active{background:var(--primary);color:#fff;}
+  .toggle{width:44px;height:26px;border-radius:14px;background:var(--border);position:relative;border:none;flex-shrink:0;}
+  .toggle.on{background:var(--primary);}
+  .toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .18s;}
+  .toggle.on::after{left:21px;}
+  .medcard{border:1.5px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:12px;}
+  .sectiontitle{font-size:12.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--text-faint);margin:22px 0 10px;}
+  .sectiontitle:first-child{margin-top:0;}
+  table.logtable{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.logtable th{text-align:left;color:var(--text-faint);font-weight:600;font-size:11.5px;padding:6px 4px;text-transform:uppercase;}
+  table.logtable td{padding:9px 4px;border-top:1px solid var(--border);}
+  .streakrow{display:flex;gap:10px;}
+  .streakcard{flex:1;background:var(--surface);border-radius:var(--radius-md);padding:14px;text-align:center;box-shadow:var(--shadow);}
+  .streakcard .num{font-size:22px;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);}
+  a.linklike{color:var(--primary);font-weight:600;font-size:13.5px;text-decoration:none;}
+  .fab{position:absolute;right:0;top:0;background:var(--primary);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:20px;display:flex;align-items:center;justify-content:center;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="screen"></div>
+  <div id="bottomnav"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'health-app-state-v1';
+
+const T = {
+  en: {
+    appName: "Amma's Health Routine", greetingMorning:"Good morning", greetingAfternoon:"Good afternoon", greetingEvening:"Good evening",
+    home:"Home", reminders:"Reminders", medicines:"Medicines", health:"Health", progress:"Progress", settings:"Settings",
+    todaysRoutine:"Today's routine", todaysProgress:"Today's progress",
+    meals:"Meals", water:"Water", walking:"Walking", sleep:"Sleep", medication:"Medication",
+    safetyMain:"This app helps you remember your health routine. It does not replace medical advice. Never stop, skip, or change prescribed medicines without speaking with your doctor.",
+    markDone:"Done", snooze:"Snooze 10 min", skip:"Skip",
+    skipMedWarning:"Please follow your doctor's instructions regarding missed doses. If you are unsure what to do, contact your doctor or pharmacist.",
+    addWater:"+ Add glass", glasses:"glasses", target:"Target",
+    startWalking:"Start walking", stopWalking:"Stop walking", minutes:"min", walkGreat:"Great job! You're moving toward today's goal.",
+    bedtime:"Bedtime", wakeTime:"Wake time", lastNight:"Last night's sleep", logSleep:"Log sleep hours",
+    addMedicine:"+ Add medicine", medName:"Medicine name", dosage:"Dosage", time:"Time", frequency:"Frequency",
+    instructions:"Instructions (as told by your doctor)", beforeAfterFood:"Before / after food", doctorNotes:"Doctor's notes",
+    startDate:"Start date", endDate:"End date (optional)", active:"Active", save:"Save", cancel:"Cancel", delete:"Delete", edit:"Edit",
+    never:"Never told", before:"Before food", after:"After food", either:"Either / not specified",
+    bpTracker:"Blood pressure", sugarTracker:"Blood sugar", systolic:"Systolic", diastolic:"Diastolic", pulse:"Pulse",
+    addReading:"+ Add reading", date:"Date", notes:"Notes (optional)", history:"History",
+    bpDangerMsg:"This reading may need prompt medical attention. If you feel unwell or have concerning symptoms, seek medical care.",
+    glucose:"Blood glucose", beforeMeal:"Before meal", afterMeal:"After meal", unit:"Unit",
+    appointments:"Doctor appointments", addAppointment:"+ Add appointment", doctorName:"Doctor's name", clinic:"Hospital / clinic",
+    questionsToAsk:"Questions to ask the doctor",
+    checkinTitle:"How are you feeling today?", checkinGood:"Good", checkinOkay:"Okay", checkinNotGreat:"Not great", checkinUnwell:"Unwell",
+    checkinNote:"Add a note (optional)", checkinSevere:"If this continues or feels serious, please reach out to your doctor or a family member.",
+    weeklyReport:"This week's routine", medsCompleted:"Medication reminders", mealsCompleted:"Meal reminders", walkDays:"Walking days",
+    avgWalk:"Average walking", sleepDays:"Nights meeting sleep target", waterDays:"Water tracking days",
+    streaks:"Streaks", walkStreak:"Walking streak", waterStreak:"Water streak", sleepStreak:"Sleep routine streak", days:"days",
+    familySupport:"Family support", familySupportDesc:"Let a family member see whether today's routine went well, without seeing detailed health data.",
+    familyOn:"Sharing enabled", familyOff:"Sharing off", statusGood:"Today's routine going well", statusSome:"Some reminders missed", statusMissed:"Important reminder missed",
+    yourRoutine:"Your daily routine", customize:"Customize timings below.", wakeUp:"Wake up", thyroid:"Thyroid medicine",
+    breakfast:"Breakfast", lunch:"Lunch", snack:"Healthy snack", dinner:"Dinner", prepSleep:"Prepare for sleep", sleepTime:"Sleep",
+    waterReminder:"Water", walkReminder:"Walking",
+    addCustomReminder:"+ Add reminder", reminderLabel:"What to remind", reminderTime:"Time",
+    profileName:"Name", language:"Language", notifSound:"Notification sound", snoozeDuration:"Snooze duration (minutes)",
+    goals:"Goals", walkGoalLabel:"Daily walking goal (minutes)", waterGoalLabel:"Daily water goal (glasses)", sleepGoalLabel:"Sleep target (hours)",
+    healthSafety:"Health safety", safetyLine1:"Do not stop or change prescribed medication based on this app.",
+    safetyLine2:"Contact your doctor if you have questions about your medication.", safetyLine3:"If you experience severe or emergency symptoms, seek urgent medical care.",
+    setupWelcome:"Let's set up your routine", setupWelcomeSub:"A few quick questions so the app fits your day.", getStarted:"Get started",
+    setupDone:"Your daily health routine is ready", setupDoneSub:"You can change any of this later in Settings.", finish:"Go to my routine",
+    next:"Next", back:"Back", skipStep:"Skip for now",
+    stepName:"What should we call you?", stepWake:"What time do you usually wake up?", stepSleep:"What time do you usually go to sleep?",
+    stepWalk:"How many minutes would you like to walk each day?", stepWater:"How many glasses of water is your daily goal?",
+    stepMeds:"Add your current medicines (optional)", stepMedsSub:"You can add these now or later from the Medicines tab.",
+    stepLang:"Choose your language", stepNotif:"Turn on reminders?", stepNotifSub:"You'll get gentle nudges through the day.",
+    notifOn:"Yes, remind me", notifOff:"Not now",
+    hello:"Hello", noMedsYet:"No medicines added yet.", noBpYet:"No blood pressure readings yet.", noSugarYet:"No blood sugar readings yet.",
+    noAppointmentsYet:"No appointments added yet.", of:"of", complete:"complete", encourage:"You're doing well.",
+    inactive:"Inactive", markInactive:"Mark inactive", markActive:"Mark active",
+    upcoming:"Upcoming", todaysMeds:"Today's medicines", weeklyNote:"Habits and adherence only — not a diagnosis.",
+    mgdl:"mg/dL", mmol:"mmol/L", bpm:"bpm",
+  },
+  ta: {
+    appName:"அம்மாவின் ஆரோக்கிய வழக்கம்", greetingMorning:"காலை வணக்கம்", greetingAfternoon:"மதிய வணக்கம்", greetingEvening:"மாலை வணக்கம்",
+    home:"முகப்பு", reminders:"நினைவூட்டல்கள்", medicines:"மருந்துகள்", health:"ஆரோக்கியம்", progress:"முன்னேற்றம்", settings:"அமைப்புகள்",
+    todaysRoutine:"இன்றைய வழக்கம்", todaysProgress:"இன்றைய முன்னேற்றம்",
+    meals:"உணவு", water:"தண்ணீர்", walking:"நடைபயிற்சி", sleep:"தூக்கம்", medication:"மருந்து",
+    safetyMain:"இந்த செயலி உங்கள் ஆரோக்கிய வழக்கத்தை நினைவூட்ட உதவுகிறது. இது மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை. உங்கள் மருத்துவரிடம் பேசாமல் பரிந்துரைக்கப்பட்ட மருந்துகளை நிறுத்த, தவிர்க்க அல்லது மாற்ற வேண்டாம்.",
+    markDone:"முடிந்தது", snooze:"10 நிமிடம் தள்ளிவை", skip:"தவிர்",
+    skipMedWarning:"தவறவிட்ட மருந்து குறித்து உங்கள் மருத்துவரின் அறிவுரையைப் பின்பற்றவும். உறுதியில்லையெனில், மருத்துவர் அல்லது மருந்தாளரை தொடர்பு கொள்ளவும்.",
+    addWater:"+ கிளாஸ் சேர்", glasses:"கிளாஸ்கள்", target:"இலக்கு",
+    startWalking:"நடைபயிற்சி தொடங்கு", stopWalking:"நிறுத்து", minutes:"நிமி", walkGreat:"அருமை! இன்றைய இலக்கை நோக்கி நகர்கிறீர்கள்.",
+    bedtime:"படுக்கை நேரம்", wakeTime:"விழிக்கும் நேரம்", lastNight:"நேற்று இரவு தூக்கம்", logSleep:"தூக்க நேரத்தை பதிவு செய்",
+    addMedicine:"+ மருந்து சேர்", medName:"மருந்தின் பெயர்", dosage:"அளவு", time:"நேரம்", frequency:"அடுக்கு",
+    instructions:"வழிமுறைகள் (மருத்துவர் கூறியபடி)", beforeAfterFood:"உணவுக்கு முன் / பின்", doctorNotes:"மருத்துவர் குறிப்புகள்",
+    startDate:"தொடக்க தேதி", endDate:"முடிவு தேதி (விருப்பம்)", active:"செயலில்", save:"சேமி", cancel:"ரத்து", delete:"நீக்கு", edit:"திருத்து",
+    never:"கூறப்படவில்லை", before:"உணவுக்கு முன்", after:"உணவுக்குப் பின்", either:"ஏதேனும் / குறிப்பிடப்படவில்லை",
+    bpTracker:"இரத்த அழுத்தம்", sugarTracker:"இரத்த சர்க்கரை", systolic:"சிஸ்டாலிக்", diastolic:"டயஸ்டாலிக்", pulse:"நாடித்துடிப்பு",
+    addReading:"+ அளவீடு சேர்", date:"தேதி", notes:"குறிப்புகள் (விருப்பம்)", history:"வரலாறு",
+    bpDangerMsg:"இந்த அளவீடு உடனடி மருத்துவ கவனிப்பு தேவைப்படலாம். உடல்நிலை சரியில்லை எனில் மருத்துவ உதவி பெறவும்.",
+    glucose:"இரத்த குளுக்கோஸ்", beforeMeal:"உணவுக்கு முன்", afterMeal:"உணவுக்குப் பின்", unit:"அலகு",
+    appointments:"மருத்துவர் சந்திப்புகள்", addAppointment:"+ சந்திப்பு சேர்", doctorName:"மருத்துவர் பெயர்", clinic:"மருத்துவமனை",
+    questionsToAsk:"மருத்துவரிடம் கேட்க வேண்டிய கேள்விகள்",
+    checkinTitle:"இன்று நீங்கள் எப்படி உணர்கிறீர்கள்?", checkinGood:"நன்று", checkinOkay:"பரவாயில்லை", checkinNotGreat:"அவ்வளவு நன்றாக இல்லை", checkinUnwell:"உடல்நிலை சரியில்லை",
+    checkinNote:"குறிப்பு சேர் (விருப்பம்)", checkinSevere:"இது தொடர்ந்தால் அல்லது தீவிரமாக உணர்ந்தால், மருத்துவர் அல்லது குடும்ப உறுப்பினரை தொடர்பு கொள்ளவும்.",
+    weeklyReport:"இந்த வார வழக்கம்", medsCompleted:"மருந்து நினைவூட்டல்கள்", mealsCompleted:"உணவு நினைவூட்டல்கள்", walkDays:"நடைபயிற்சி நாட்கள்",
+    avgWalk:"சராசரி நடைபயிற்சி", sleepDays:"இலக்கை எட்டிய இரவுகள்", waterDays:"தண்ணீர் பதிவு நாட்கள்",
+    streaks:"தொடர்ச்சிகள்", walkStreak:"நடைபயிற்சி தொடர்ச்சி", waterStreak:"தண்ணீர் தொடர்ச்சி", sleepStreak:"தூக்க தொடர்ச்சி", days:"நாட்கள்",
+    familySupport:"குடும்ப ஆதரவு", familySupportDesc:"விரிவான தகவல் இல்லாமல் இன்றைய வழக்கம் நன்றாக நடந்ததா எனக் குடும்ப உறுப்பினர் பார்க்க அனுமதி.",
+    familyOn:"பகிர்வு இயக்கப்பட்டது", familyOff:"பகிர்வு இல்லை", statusGood:"இன்றைய வழக்கம் நன்றாக நடக்கிறது", statusSome:"சில நினைவூட்டல்கள் தவறவிடப்பட்டன", statusMissed:"முக்கிய நினைவூட்டல் தவறவிடப்பட்டது",
+    yourRoutine:"உங்கள் தினசரி வழக்கம்", customize:"கீழே நேரங்களை மாற்றியமைக்கவும்.", wakeUp:"விழிப்பு", thyroid:"தைராய்டு மருந்து",
+    breakfast:"காலை உணவு", lunch:"மதிய உணவு", snack:"சிற்றுண்டி", dinner:"இரவு உணவு", prepSleep:"தூக்கத்திற்கு தயார்", sleepTime:"தூக்கம்",
+    waterReminder:"தண்ணீர்", walkReminder:"நடைபயிற்சி",
+    addCustomReminder:"+ நினைவூட்டல் சேர்", reminderLabel:"எதை நினைவூட்ட வேண்டும்", reminderTime:"நேரம்",
+    profileName:"பெயர்", language:"மொழி", notifSound:"நினைவூட்டல் ஒலி", snoozeDuration:"தள்ளிவைப்பு (நிமிடங்கள்)",
+    goals:"இலக்குகள்", walkGoalLabel:"தினசரி நடைபயிற்சி இலக்கு (நிமிடம்)", waterGoalLabel:"தினசரி தண்ணீர் இலக்கு (கிளாஸ்)", sleepGoalLabel:"தூக்க இலக்கு (மணி)",
+    healthSafety:"ஆரோக்கிய பாதுகாப்பு", safetyLine1:"இந்த செயலியின் அடிப்படையில் பரிந்துரைக்கப்பட்ட மருந்தை நிறுத்த அல்லது மாற்ற வேண்டாம்.",
+    safetyLine2:"மருந்து குறித்த கேள்விகள் இருந்தால் உங்கள் மருத்துவரை தொடர்பு கொள்ளவும்.", safetyLine3:"கடுமையான அல்லது அவசர அறிகுறிகள் இருந்தால், உடனடி மருத்துவ உதவி பெறவும்.",
+    setupWelcome:"உங்கள் வழக்கத்தை அமைப்போம்", setupWelcomeSub:"உங்கள் நாளுக்கு ஏற்ப செயலியை அமைக்க சில கேள்விகள்.", getStarted:"தொடங்குங்கள்",
+    setupDone:"உங்கள் தினசரி ஆரோக்கிய வழக்கம் தயார்", setupDoneSub:"இதை பின்னர் அமைப்புகளில் மாற்றலாம்.", finish:"என் வழக்கத்திற்குச் செல்",
+    next:"அடுத்து", back:"பின்", skipStep:"இப்போது தவிர்",
+    stepName:"உங்களை என்ன அழைக்கலாம்?", stepWake:"வழக்கமாக எத்தனை மணிக்கு விழிக்கிறீர்கள்?", stepSleep:"வழக்கமாக எத்தனை மணிக்கு தூங்குகிறீர்கள்?",
+    stepWalk:"தினமும் எத்தனை நிமிடங்கள் நடக்க விரும்புகிறீர்கள்?", stepWater:"தினசரி எத்தனை கிளாஸ் தண்ணீர் இலக்கு?",
+    stepMeds:"உங்கள் தற்போதைய மருந்துகளை சேர்க்கவும் (விருப்பம்)", stepMedsSub:"இதை இப்போது அல்லது பின்னர் மருந்துகள் பிரிவில் சேர்க்கலாம்.",
+    stepLang:"உங்கள் மொழியை தேர்வு செய்யவும்", stepNotif:"நினைவூட்டல்களை இயக்கவா?", stepNotifSub:"நாள் முழுவதும் மென்மையான நினைவூட்டல்கள் கிடைக்கும்.",
+    notifOn:"ஆம், நினைவூட்டு", notifOff:"இப்போது வேண்டாம்",
+    hello:"வணக்கம்", noMedsYet:"இன்னும் மருந்துகள் சேர்க்கப்படவில்லை.", noBpYet:"இன்னும் இரத்த அழுத்த அளவீடுகள் இல்லை.", noSugarYet:"இன்னும் இரத்த சர்க்கரை அளவீடுகள் இல்லை.",
+    noAppointmentsYet:"இன்னும் சந்திப்புகள் சேர்க்கப்படவில்லை.", of:"/", complete:"முடிந்தது", encourage:"நீங்கள் நன்றாக செய்கிறீர்கள்.",
+    inactive:"செயலற்றது", markInactive:"செயலற்றதாக குறி", markActive:"செயலில் குறி",
+    upcoming:"வரவிருக்கும்", todaysMeds:"இன்றைய மருந்துகள்", weeklyNote:"பழக்கவழக்கம் மற்றும் பின்பற்றல் மட்டும் — நோய் கண்டறிதல் அல்ல.",
+    mgdl:"mg/dL", mmol:"mmol/L", bpm:"bpm",
+  }
+};
+
+function t(key){ return (T[state.profile.language] && T[state.profile.language][key]) || T.en[key] || key; }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function fmtTime12(t24){
+  if(!t24) return '';
+  let [h,m]=t24.split(':').map(Number);
+  const ap = h>=12 ? 'PM':'AM';
+  h = h%12; if(h===0) h=12;
+  return h+':'+String(m).padStart(2,'0')+' '+ap;
+}
+
+function defaultSchedule(){
+  return [
+    {id:'wake', key:'wakeUp', time:'06:00', icon:'\u2600\ufe0f', type:'wake'},
+    {id:'thyroid', key:'thyroid', time:'06:15', icon:'\ud83d\udc8a', type:'note', note:''},
+    {id:'water1', key:'waterReminder', time:'07:00', icon:'\ud83d\udca7', type:'water'},
+    {id:'breakfast', key:'breakfast', time:'08:00', icon:'\ud83c\udf5b', type:'meal'},
+    {id:'water2', key:'waterReminder', time:'10:30', icon:'\ud83d\udca7', type:'water'},
+    {id:'lunch', key:'lunch', time:'12:30', icon:'\ud83c\udf5a', type:'meal'},
+    {id:'water3', key:'waterReminder', time:'14:30', icon:'\ud83d\udca7', type:'water'},
+    {id:'snack', key:'snack', time:'16:30', icon:'\ud83c\udf4a', type:'meal'},
+    {id:'walk', key:'walkReminder', time:'17:30', icon:'\ud83d\udeb6', type:'walk'},
+    {id:'dinner', key:'dinner', time:'19:30', icon:'\ud83c\udf72', type:'meal'},
+    {id:'water4', key:'waterReminder', time:'21:00', icon:'\ud83d\udca7', type:'water'},
+    {id:'prepsleep', key:'prepSleep', time:'21:30', icon:'\ud83c\udf19', type:'note', note:''},
+    {id:'sleep', key:'sleepTime', time:'22:00', icon:'\ud83d\ude34', type:'sleep'},
+  ];
+}
+
+function defaultState(){
+  return {
+    setupComplete:false,
+    profile:{ name:'', language:'en', wakeTime:'06:00', sleepTime:'22:00', walkGoal:60, waterGoal:8, sleepGoal:8,
+      familySupport:false, notifSound:'chime', snooze:10, notifEnabled:true },
+    schedule: defaultSchedule(),
+    medicines:[],
+    appointments:[],
+    bp:[],
+    sugar:[],
+    today:{ date:todayStr(), completed:{}, water:0, walkMinutes:0, walking:false, walkStart:null, sleepHours:null, checkin:null, checkinNote:'' },
+    history:{},
+    streaks:{ walk:0, water:0, sleep:0, lastWalkDate:null, lastWaterDate:null, lastSleepDate:null }
+  };
+}
+
+let state = defaultState();
+let currentView = 'home';
+let currentHealthTab = 'water';
+let wizardStep = 0;
+let saveTimer = null;
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(persist, 400);
+}
+
+async function persist(){
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(state), false);
+  }catch(e){ console.error('save failed', e); }
+}
+
+async function loadState(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, false);
+    if(res && res.value){
+      const loaded = JSON.parse(res.value);
+      state = Object.assign(defaultState(), loaded);
+      state.profile = Object.assign(defaultState().profile, loaded.profile||{});
+      state.today = Object.assign(defaultState().today, loaded.today||{});
+      state.streaks = Object.assign(defaultState().streaks, loaded.streaks||{});
+      if(!state.schedule || !state.schedule.length) state.schedule = defaultSchedule();
+    }
+  }catch(e){
+    state = defaultState();
+  }
+  rolloverDayIfNeeded();
+  applyLangClass();
+  render();
+}
+
+function applyLangClass(){
+  document.body.className = state.profile.language==='ta' ? 'lang-ta' : '';
+}
+
+function rolloverDayIfNeeded(){
+  const today = todayStr();
+  if(state.today.date !== today){
+    const y = state.today;
+    if(y.date){
+      const mealIds = state.schedule.filter(s=>s.type==='meal').map(s=>s.id);
+      const mealsDone = mealIds.filter(id=>y.completed[id]).length;
+      const medIds = state.medicines.filter(m=>m.active!==false).map(m=>m.id);
+      const medsDone = medIds.filter(id=>y.completed['med_'+id]).length;
+      state.history[y.date] = {
+        water:y.water, waterGoal:state.profile.waterGoal,
+        walkMinutes:y.walkMinutes, walkGoal:state.profile.walkGoal,
+        sleepHours:y.sleepHours, sleepGoal:state.profile.sleepGoal,
+        mealsDone, mealsTotal:mealIds.length,
+        medsDone, medsTotal:medIds.length,
+        checkin:y.checkin
+      };
+      updateStreaks(y);
+    }
+    state.today = { date:today, completed:{}, water:0, walkMinutes:0, walking:false, walkStart:null, sleepHours:null, checkin:null, checkinNote:'' };
+    scheduleSave();
+  }
+}
+
+function updateStreaks(y){
+  const s = state.streaks;
+  if(y.walkMinutes >= state.profile.walkGoal){ s.walk = (s.lastWalkDate===prevDay(y.date))? s.walk+1 : 1; s.lastWalkDate=y.date; } else { s.walk=0; }
+  if(y.water >= state.profile.waterGoal){ s.water = (s.lastWaterDate===prevDay(y.date))? s.water+1 : 1; s.lastWaterDate=y.date; } else { s.water=0; }
+  if(y.sleepHours!==null && y.sleepHours >= state.profile.sleepGoal){ s.sleep = (s.lastSleepDate===prevDay(y.date))? s.sleep+1 : 1; s.lastSleepDate=y.date; } else { s.sleep=0; }
+}
+function prevDay(dateStr){
+  const d = new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-1);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function esc(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function greeting(){
+  const h = new Date().getHours();
+  if(h<12) return t('greetingMorning');
+  if(h<17) return t('greetingAfternoon');
+  return t('greetingEvening');
+}
+
+function setView(v){ currentView = v; render(); window.scrollTo(0,0); document.getElementById('screen').scrollTop=0; }
+
+function render(){
+  rolloverDayIfNeeded();
+  renderNav();
+  const el = document.getElementById('screen');
+  if(!state.setupComplete){ el.innerHTML = ''; renderWizard(); return; }
+  let html = '';
+  if(currentView==='home') html = viewHome();
+  else if(currentView==='reminders') html = viewReminders();
+  else if(currentView==='medicines') html = viewMedicines();
+  else if(currentView==='healthtab') html = viewHealth();
+  else if(currentView==='progress') html = viewProgress();
+  else if(currentView==='settings') html = viewSettings();
+  el.innerHTML = html;
+}
+
+function renderNav(){
+  const nav = document.getElementById('bottomnav');
+  if(!state.setupComplete){ nav.innerHTML=''; return; }
+  const items = [
+    {id:'home', icon:'\ud83c\udfe0', label:t('home')},
+    {id:'reminders', icon:'\u23f0', label:t('reminders')},
+    {id:'medicines', icon:'\ud83d\udc8a', label:t('medicines')},
+    {id:'healthtab', icon:'\u2764\ufe0f', label:t('health')},
+    {id:'progress', icon:'\ud83d\udcca', label:t('progress')},
+    {id:'settings', icon:'\u2699\ufe0f', label:t('settings')},
+  ];
+  nav.innerHTML = items.map(i=>`
+    <button class="navitem ${currentView===i.id?'active':''}" onclick="setView('${i.id}')">
+      <span class="navicon">${i.icon}</span><span>${esc(i.label)}</span>
+    </button>`).join('');
+}
+
+function langSwitch(){
+  return `<div class="langtoggle">
+    <button class="${state.profile.language==='en'?'active':''}" onclick="setLang('en')">EN</button>
+    <button class="${state.profile.language==='ta'?'active':''}" onclick="setLang('ta')">\u0ba4\u0bae\u0bbf\u0bb4\u0bcd</button>
+  </div>`;
+}
+function setLang(l){ state.profile.language = l; applyLangClass(); scheduleSave(); render(); }
+
+function safetyBanner(){
+  return `<div class="safety-banner"><b>\u2764\ufe0f</b> ${esc(t('safetyMain'))}</div>`;
+}
+
+function pctColor(pct){
+  if(pct>=100) return 'var(--success)';
+  if(pct>=50) return 'var(--accent)';
+  return 'var(--primary)';
+}
+
+function viewHome(){
+  const s = state.today;
+  const p = state.profile;
+  const scheduleItems = state.schedule.slice().sort((a,b)=>a.time.localeCompare(b.time));
+  const todaysMeds = state.medicines.filter(m=>m.active!==false);
+
+  const totalItems = scheduleItems.length + todaysMeds.length;
+  let doneItems = scheduleItems.filter(it=>s.completed[it.id]).length + todaysMeds.filter(m=>s.completed['med_'+m.id]).length;
+
+  const checklist = scheduleItems.map(it=>{
+    const done = !!s.completed[it.id];
+    return `<div class="checkitem">
+      <button class="checkbox ${done?'done':''}" onclick="toggleScheduleItem('${it.id}')">${done?'\u2713':''}</button>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14.5px">${it.icon} ${esc(t(it.key))}</div>
+        <div class="faint">${fmtTime12(it.time)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const medChecklist = todaysMeds.length ? todaysMeds.map(m=>{
+    const done = !!s.completed['med_'+m.id];
+    return `<div class="checkitem">
+      <button class="checkbox ${done?'done':''}" onclick="toggleMedDone('${m.id}')">${done?'\u2713':''}</button>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14.5px">\ud83d\udc8a ${esc(m.name)}</div>
+        <div class="faint">${fmtTime12(m.time)} \u00b7 ${esc(m.dosage||'')}</div>
+      </div>
+    </div>`;
+  }).join('') : `<div class="empty-state" style="padding:14px"><span class="faint">${esc(t('noMedsYet'))}</span></div>`;
+
+  const waterPct = Math.min(100, Math.round((s.water/p.waterGoal)*100));
+  const walkPct = Math.min(100, Math.round((s.walkMinutes/p.walkGoal)*100));
+
+  return `
+    <div class="toprow">
+      <div>
+        <h1 style="margin:0;font-size:23px;">${esc(greeting())}${p.name?', '+esc(p.name):''} \ud83d\udc4b</h1>
+        <div class="muted">${esc(t('todaysRoutine'))}</div>
+      </div>
+      ${langSwitch()}
+    </div>
+
+    ${safetyBanner()}
+
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <h3 style="margin:0;font-size:16px">${esc(t('todaysProgress'))}</h3>
+        <span class="pill">${doneItems} ${t('of')} ${totalItems} ${esc(t('complete'))}</span>
+      </div>
+      <div class="progressbar" style="margin-bottom:14px"><div style="width:${totalItems? Math.round(doneItems/totalItems*100):0}%"></div></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="card-soft">
+          <div class="faint">\ud83d\udca7 ${esc(t('water'))}</div>
+          <div style="font-weight:700;font-size:16px;color:${pctColor(waterPct)}">${s.water} / ${p.waterGoal}</div>
+        </div>
+        <div class="card-soft">
+          <div class="faint">\ud83d\udeb6 ${esc(t('walking'))}</div>
+          <div style="font-weight:700;font-size:16px;color:${pctColor(walkPct)}">${s.walkMinutes} / ${p.walkGoal} ${t('minutes')}</div>
+        </div>
+        <div class="card-soft">
+          <div class="faint">\ud83d\ude34 ${esc(t('sleep'))}</div>
+          <div style="font-weight:700;font-size:16px">${s.sleepHours!==null? s.sleepHours+'h' : '\u2014'}</div>
+        </div>
+        <div class="card-soft">
+          <div class="faint">\ud83d\udc8a ${esc(t('medication'))}</div>
+          <div style="font-weight:700;font-size:16px">${todaysMeds.filter(m=>s.completed['med_'+m.id]).length} / ${todaysMeds.length}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sectiontitle">${esc(t('todaysMeds'))}</div>
+    <div class="card">${medChecklist}</div>
+
+    <div class="sectiontitle">${esc(t('yourRoutine'))}</div>
+    <div class="card">${checklist}</div>
+
+    ${checkinCard()}
+  `;
+}
+
+function checkinCard(){
+  const s = state.today;
+  const moods = [
+    {v:'good', e:'\ud83d\ude0a', k:'checkinGood'},
+    {v:'okay', e:'\ud83d\ude42', k:'checkinOkay'},
+    {v:'notgreat', e:'\ud83d\ude10', k:'checkinNotGreat'},
+    {v:'unwell', e:'\ud83d\ude1f', k:'checkinUnwell'},
+  ];
+  return `<div class="card">
+    <h3 style="margin:0 0 10px;font-size:16px">${esc(t('checkinTitle'))}</h3>
+    <div style="display:flex;gap:8px;margin-bottom:${s.checkin?'10px':'0'}">
+      ${moods.map(m=>`<button class="btn ${s.checkin===m.v?'btn-primary':'btn-ghost'}" style="padding:12px 4px;font-size:12px;flex-direction:column;gap:4px" onclick="setCheckin('${m.v}')">
+        <span style="font-size:20px">${m.e}</span>${esc(t(m.k))}
+      </button>`).join('')}
+    </div>
+    ${(s.checkin==='notgreat'||s.checkin==='unwell') ? `<div class="safety-banner" style="margin-top:10px">${esc(t('checkinSevere'))}</div>` : ''}
+  </div>`;
+}
+
+function setCheckin(v){ state.today.checkin = v; scheduleSave(); render(); }
+
+function toggleScheduleItem(id){
+  const s = state.today;
+  s.completed[id] = !s.completed[id];
+  const item = state.schedule.find(x=>x.id===id);
+  if(item && item.type==='water' && s.completed[id]) addWater(1, false);
+  scheduleSave(); render();
+}
+function toggleMedDone(id){
+  const s = state.today;
+  const key = 'med_'+id;
+  s.completed[key] = !s.completed[key];
+  scheduleSave(); render();
+}
+
+function addWater(n, doRender){
+  state.today.water = Math.max(0, state.today.water + n);
+  scheduleSave();
+  if(doRender!==false) render();
+}
+
+function toggleWalking(){
+  const s = state.today;
+  if(!s.walking){ s.walking = true; s.walkStart = Date.now(); }
+  else {
+    const mins = Math.max(1, Math.round((Date.now()-s.walkStart)/60000));
+    s.walkMinutes += mins;
+    s.walking = false; s.walkStart = null;
+  }
+  scheduleSave(); render();
+}
+
+function viewReminders(){
+  const scheduleItems = state.schedule.slice().sort((a,b)=>a.time.localeCompare(b.time));
+  const rows = scheduleItems.map(it=>`
+    <div class="card-soft row">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">${it.icon}</span>
+        <div>
+          <div style="font-weight:600;font-size:14px">${esc(t(it.key))}</div>
+          <div class="faint">${fmtTime12(it.time)}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <input type="time" value="${it.time}" onchange="updateScheduleTime('${it.id}', this.value)" style="width:118px;padding:8px 8px" />
+        ${it.custom ? `<button class="btn btn-danger-ghost btn-sm" onclick="removeScheduleItem('${it.id}')">\u2715</button>` : ''}
+      </div>
+    </div>`).join('');
+
+  const appts = state.appointments.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const apptRows = appts.length ? appts.map(a=>`
+    <div class="medcard">
+      <div class="row"><b>${esc(a.doctorName)}</b><button class="btn btn-danger-ghost btn-sm" onclick="deleteAppointment('${a.id}')">${esc(t('delete'))}</button></div>
+      <div class="muted">${esc(a.clinic||'')}</div>
+      <div class="muted">${esc(a.date||'')} ${a.time?('\u00b7 '+fmtTime12(a.time)):''}</div>
+      ${a.questions?`<div class="faint" style="margin-top:6px">${esc(a.questions)}</div>`:''}
+    </div>`).join('') : `<div class="empty-state">${esc(t('noAppointmentsYet'))}</div>`;
+
+  return `
+    <div class="toprow"><h1 style="margin:0;font-size:22px">${esc(t('reminders'))}</h1>${langSwitch()}</div>
+
+    <div class="sectiontitle">${esc(t('yourRoutine'))}</div>
+    <div class="muted" style="margin-bottom:10px">${esc(t('customize'))}</div>
+    ${rows}
+    <div style="margin:14px 0 4px">
+      <button class="btn btn-ghost" onclick="openAddReminder()">${esc(t('addCustomReminder'))}</button>
+    </div>
+
+    <div class="sectiontitle">${esc(t('appointments'))}</div>
+    ${apptRows}
+    <div style="margin-top:10px">
+      <button class="btn btn-accent" onclick="openAddAppointment()">${esc(t('addAppointment'))}</button>
+    </div>
+  `;
+}
+
+function updateScheduleTime(id, val){
+  const it = state.schedule.find(x=>x.id===id);
+  if(it){ it.time = val; scheduleSave(); render(); }
+}
+function removeScheduleItem(id){
+  state.schedule = state.schedule.filter(x=>x.id!==id);
+  scheduleSave(); render();
+}
+function openAddReminder(){
+  openModal(`
+    <h3 style="margin-top:0">${esc(t('addCustomReminder'))}</h3>
+    <label class="field-label">${esc(t('reminderLabel'))}</label>
+    <input type="text" id="m-label" placeholder="${esc(t('reminderLabel'))}" />
+    <label class="field-label">${esc(t('reminderTime'))}</label>
+    <input type="time" id="m-time" value="12:00" />
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-ghost" onclick="closeModal()">${esc(t('cancel'))}</button>
+      <button class="btn btn-primary" onclick="saveCustomReminder()">${esc(t('save'))}</button>
+    </div>
+  `);
+}
+function saveCustomReminder(){
+  const label = document.getElementById('m-label').value.trim();
+  const time = document.getElementById('m-time').value;
+  if(!label) return;
+  state.schedule.push({id:uid(), key:null, customLabel:label, time, icon:'\u23f0', type:'note', custom:true});
+  T.en[state.schedule[state.schedule.length-1].id] = label;
+  scheduleSave(); closeModal(); render();
+}
+
+function openAddAppointment(){
+  openModal(`
+    <h3 style="margin-top:0">${esc(t('addAppointment'))}</h3>
+    <label class="field-label">${esc(t('doctorName'))}</label>
+    <input type="text" id="a-doc" />
+    <label class="field-label">${esc(t('clinic'))}</label>
+    <input type="text" id="a-clinic" />
+    <label class="field-label">${esc(t('date'))}</label>
+    <input type="date" id="a-date" />
+    <label class="field-label">${esc(t('time'))}</label>
+    <input type="time" id="a-time" />
+    <label class="field-label">${esc(t('questionsToAsk'))}</label>
+    <textarea id="a-questions"></textarea>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-ghost" onclick="closeModal()">${esc(t('cancel'))}</button>
+      <button class="btn btn-primary" onclick="saveAppointment()">${esc(t('save'))}</button>
+    </div>
+  `);
+}
+function saveAppointment(){
+  const doctorName = document.getElementById('a-doc').value.trim();
+  if(!doctorName) return;
+  state.appointments.push({
+    id:uid(), doctorName, clinic:document.getElementById('a-clinic').value.trim(),
+    date:document.getElementById('a-date').value, time:document.getElementById('a-time').value,
+    questions:document.getElementById('a-questions').value.trim()
+  });
+  scheduleSave(); closeModal(); render();
+}
+function deleteAppointment(id){
+  state.appointments = state.appointments.filter(a=>a.id!==id);
+  scheduleSave(); render();
+}
+
+function viewMedicines(){
+  const meds = state.medicines;
+  const list = meds.length ? meds.map(m=>`
+    <div class="medcard">
+      <div class="row">
+        <b style="font-size:15px">${esc(m.name)} ${m.active===false?`<span class="pill" style="margin-left:6px">${esc(t('inactive'))}</span>`:''}</b>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-ghost btn-sm" onclick="editMedicine('${m.id}')">${esc(t('edit'))}</button>
+          <button class="btn btn-danger-ghost btn-sm" onclick="deleteMedicine('${m.id}')">${esc(t('delete'))}</button>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:4px">${esc(m.dosage||'')} \u00b7 ${fmtTime12(m.time)} \u00b7 ${esc(m.frequency||'')}</div>
+      ${m.foodTiming?`<div class="pill pill-accent" style="margin-top:8px">${esc(t(m.foodTiming))}</div>`:''}
+      ${m.instructions?`<div class="faint" style="margin-top:8px">${esc(m.instructions)}</div>`:''}
+      ${m.doctorNotes?`<div class="faint" style="margin-top:4px">\ud83d\udcdd ${esc(m.doctorNotes)}</div>`:''}
+      <div style="margin-top:10px">
+        <button class="btn btn-ghost btn-sm" onclick="toggleMedActive('${m.id}')">${m.active===false? esc(t('markActive')) : esc(t('markInactive'))}</button>
+      </div>
+    </div>`).join('') : `<div class="empty-state"><span class="navicon">\ud83d\udc8a</span>${esc(t('noMedsYet'))}</div>`;
+
+  return `
+    <div class="toprow"><h1 style="margin:0;font-size:22px">${esc(t('medicines'))}</h1>${langSwitch()}</div>
+    ${safetyBanner()}
+    <button class="btn btn-primary" style="margin-bottom:16px" onclick="editMedicine(null)">${esc(t('addMedicine'))}</button>
+    ${list}
+  `;
+}
+
+function toggleMedActive(id){
+  const m = state.medicines.find(x=>x.id===id);
+  if(m){ m.active = m.active===false ? true : false; scheduleSave(); render(); }
+}
+function deleteMedicine(id){
+  state.medicines = state.medicines.filter(m=>m.id!==id);
+  scheduleSave(); render();
+}
+
+function editMedicine(id){
+  const m = id ? state.medicines.find(x=>x.id===id) : {
+    id:uid(), name:'', dosage:'', time:'08:00', frequency:'', instructions:'', foodTiming:'either', doctorNotes:'', startDate:'', endDate:'', active:true
+  };
+  const isNew = !id;
+  openModal(`
+    <h3 style="margin-top:0">${esc(t('addMedicine'))}</h3>
+    <label class="field-label">${esc(t('medName'))}</label>
+    <input type="text" id="mm-name" value="${esc(m.name)}" />
+    <label class="field-label">${esc(t('dosage'))}</label>
+    <input type="text" id="mm-dosage" value="${esc(m.dosage)}" placeholder="e.g. 50mcg, 1 tablet" />
+    <label class="field-label">${esc(t('time'))}</label>
+    <input type="time" id="mm-time" value="${m.time||'08:00'}" />
+    <label class="field-label">${esc(t('frequency'))}</label>
+    <input type="text" id="mm-freq" value="${esc(m.frequency)}" placeholder="e.g. Once daily" />
+    <label class="field-label">${esc(t('beforeAfterFood'))}</label>
+    <select id="mm-food">
+      <option value="either" ${m.foodTiming==='either'?'selected':''}>${esc(t('either'))}</option>
+      <option value="before" ${m.foodTiming==='before'?'selected':''}>${esc(t('before'))}</option>
+      <option value="after" ${m.foodTiming==='after'?'selected':''}>${esc(t('after'))}</option>
+    </select>
+    <label class="field-label">${esc(t('instructions'))}</label>
+    <textarea id="mm-instr">${esc(m.instructions)}</textarea>
+    <label class="field-label">${esc(t('doctorNotes'))}</label>
+    <textarea id="mm-notes">${esc(m.doctorNotes)}</textarea>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="field-label">${esc(t('startDate'))}</label><input type="date" id="mm-start" value="${m.startDate||''}" /></div>
+      <div><label class="field-label">${esc(t('endDate'))}</label><input type="date" id="mm-end" value="${m.endDate||''}" /></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-ghost" onclick="closeModal()">${esc(t('cancel'))}</button>
+      <button class="btn btn-primary" onclick="saveMedicine('${m.id}', ${isNew})">${esc(t('save'))}</button>
+    </div>
+  `);
+}
+
+function saveMedicine(id, isNew){
+  const name = document.getElementById('mm-name').value.trim();
+  if(!name) return;
+  const data = {
+    id, name,
+    dosage:document.getElementById('mm-dosage').value.trim(),
+    time:document.getElementById('mm-time').value,
+    frequency:document.getElementById('mm-freq').value.trim(),
+    foodTiming:document.getElementById('mm-food').value,
+    instructions:document.getElementById('mm-instr').value.trim(),
+    doctorNotes:document.getElementById('mm-notes').value.trim(),
+    startDate:document.getElementById('mm-start').value,
+    endDate:document.getElementById('mm-end').value,
+    active:true
+  };
+  if(isNew){ state.medicines.push(data); }
+  else{
+    const idx = state.medicines.findIndex(x=>x.id===id);
+    if(idx>=0) state.medicines[idx] = Object.assign({}, state.medicines[idx], data);
+  }
+  scheduleSave(); closeModal(); render();
+}
+
+function viewHealth(){
+  const tabs = [
+    {id:'water', label:t('water')},
+    {id:'walk', label:t('walking')},
+    {id:'sleep', label:t('sleep')},
+    {id:'bp', label:t('bpTracker')},
+    {id:'sugar', label:t('sugarTracker')},
+  ];
+  let body = '';
+  if(currentHealthTab==='water') body = healthWater();
+  else if(currentHealthTab==='walk') body = healthWalk();
+  else if(currentHealthTab==='sleep') body = healthSleep();
+  else if(currentHealthTab==='bp') body = healthBP();
+  else if(currentHealthTab==='sugar') body = healthSugar();
+
+  return `
+    <div class="toprow"><h1 style="margin:0;font-size:22px">${esc(t('health'))}</h1>${langSwitch()}</div>
+    <div class="segmented" style="margin-bottom:16px">
+      ${tabs.map(tb=>`<button class="${currentHealthTab===tb.id?'active':''}" onclick="setHealthTab('${tb.id}')">${esc(tb.label)}</button>`).join('')}
+    </div>
+    ${body}
+  `;
+}
+function setHealthTab(id){ currentHealthTab=id; render(); }
+
+function healthWater(){
+  const s = state.today, p = state.profile;
+  const pct = Math.min(100, Math.round((s.water/p.waterGoal)*100));
+  let drops = '';
+  for(let i=0;i<p.waterGoal;i++){ drops += `<span style="font-size:22px;opacity:${i<s.water?1:0.25}">\ud83d\udca7</span>`; }
+  return `
+    <div class="card" style="text-align:center">
+      <div class="faint">${esc(t('water'))} \u00b7 ${esc(t('target'))}: ${p.waterGoal} ${esc(t('glasses'))}</div>
+      <div style="font-size:34px;font-weight:700;font-family:'Fraunces',serif;margin:8px 0;color:${pctColor(pct)}">${s.water} / ${p.waterGoal}</div>
+      <div style="margin:10px 0 16px">${drops}</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="addWater(-1)" ${s.water<=0?'disabled':''}>\u2212</button>
+        <button class="btn btn-primary" onclick="addWater(1)">${esc(t('addWater'))}</button>
+      </div>
+    </div>
+  `;
+}
+
+function healthWalk(){
+  const s = state.today, p = state.profile;
+  const pct = Math.min(100, Math.round((s.walkMinutes/p.walkGoal)*100));
+  return `
+    <div class="card" style="text-align:center">
+      <div class="faint">${esc(t('walking'))} \u00b7 ${esc(t('target'))}: ${p.walkGoal} ${esc(t('minutes'))}</div>
+      <div style="font-size:34px;font-weight:700;font-family:'Fraunces',serif;margin:8px 0;color:${pctColor(pct)}">${s.walkMinutes} ${esc(t('minutes'))}</div>
+      <div class="progressbar" style="margin:12px 0 18px"><div style="width:${pct}%"></div></div>
+      <button class="btn ${s.walking?'btn-danger-ghost':'btn-primary'}" onclick="toggleWalking()">${s.walking? esc(t('stopWalking')) : esc(t('startWalking'))}</button>
+      ${pct>=100?`<div class="pill" style="margin-top:14px">${esc(t('walkGreat'))}</div>`:''}
+    </div>
+  `;
+}
+
+function healthSleep(){
+  const s = state.today, p = state.profile;
+  return `
+    <div class="card">
+      <div class="row"><span class="faint">${esc(t('wakeTime'))}</span><b>${fmtTime12(p.wakeTime)}</b></div>
+      <div class="row" style="margin-top:8px"><span class="faint">${esc(t('bedtime'))}</span><b>${fmtTime12(p.sleepTime)}</b></div>
+    </div>
+    <div class="card">
+      <label class="field-label">${esc(t('logSleep'))}</label>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input type="number" min="0" max="14" step="0.5" id="sleep-hours" value="${s.sleepHours!==null?s.sleepHours:''}" style="width:100px" />
+        <button class="btn btn-primary btn-sm" onclick="logSleep()">${esc(t('save'))}</button>
+      </div>
+      ${s.sleepHours!==null ? `<div style="margin-top:14px">
+        <div class="muted">${esc(t('lastNight'))}: <b>${s.sleepHours}h</b> \u00b7 ${esc(t('target'))}: ${p.sleepGoal}h</div>
+        <div class="pill" style="margin-top:8px">${esc(t('encourage'))}</div>
+      </div>` : ''}
+    </div>
+  `;
+}
+function logSleep(){
+  const v = parseFloat(document.getElementById('sleep-hours').value);
+  if(isNaN(v)) return;
+  state.today.sleepHours = v;
+  scheduleSave(); render();
+}
+
+function bpSeverity(sys, dia){
+  if(sys>=180 || dia>=120 || sys<=90 || dia<=60) return 'danger';
+  return null;
+}
+function healthBP(){
+  const readings = state.bp.slice().sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const rows = readings.slice(0,10).map(r=>`
+    <tr><td>${esc(r.date)}</td><td>${fmtTime12(r.time)}</td><td>${r.systolic}/${r.diastolic}</td><td>${r.pulse||'\u2014'}</td></tr>
+  `).join('');
+  return `
+    <div class="card">
+      <button class="btn btn-primary" onclick="openAddBP()">${esc(t('addReading'))}</button>
+    </div>
+    <div class="sectiontitle">${esc(t('history'))}</div>
+    ${readings.length ? `<div class="card"><table class="logtable">
+      <tr><th>${esc(t('date'))}</th><th>${esc(t('time'))}</th><th>${esc(t('bpTracker'))}</th><th>${esc(t('pulse'))}</th></tr>
+      ${rows}
+    </table></div>` : `<div class="empty-state">${esc(t('noBpYet'))}</div>`}
+  `;
+}
+function openAddBP(){
+  openModal(`
+    <h3 style="margin-top:0">${esc(t('bpTracker'))}</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="field-label">${esc(t('systolic'))}</label><input type="number" id="bp-sys" /></div>
+      <div><label class="field-label">${esc(t('diastolic'))}</label><input type="number" id="bp-dia" /></div>
+    </div>
+    <label class="field-label">${esc(t('pulse'))} (${esc(t('bpm'))})</label>
+    <input type="number" id="bp-pulse" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="field-label">${esc(t('date'))}</label><input type="date" id="bp-date" value="${todayStr()}" /></div>
+      <div><label class="field-label">${esc(t('time'))}</label><input type="time" id="bp-time" value="${new Date().toTimeString().slice(0,5)}" /></div>
+    </div>
+    <label class="field-label">${esc(t('notes'))}</label>
+    <textarea id="bp-notes"></textarea>
+    <div id="bp-warning"></div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-ghost" onclick="closeModal()">${esc(t('cancel'))}</button>
+      <button class="btn btn-primary" onclick="saveBP()">${esc(t('save'))}</button>
+    </div>
+  `);
+}
+function saveBP(){
+  const sys = parseInt(document.getElementById('bp-sys').value);
+  const dia = parseInt(document.getElementById('bp-dia').value);
+  if(!sys || !dia) return;
+  const pulse = parseInt(document.getElementById('bp-pulse').value) || null;
+  const reading = {
+    id:uid(), systolic:sys, diastolic:dia, pulse,
+    date:document.getElementById('bp-date').value, time:document.getElementById('bp-time').value,
+    notes:document.getElementById('bp-notes').value.trim()
+  };
+  state.bp.push(reading);
+  scheduleSave();
+  if(bpSeverity(sys,dia)){
+    document.getElementById('bp-warning').innerHTML = `<div class="safety-banner">${esc(t('bpDangerMsg'))}</div>`;
+    setTimeout(()=>{ closeModal(); render(); }, 2600);
+  } else {
+    closeModal(); render();
+  }
+}
+
+function healthSugar(){
+  const readings = state.sugar.slice().sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const rows = readings.slice(0,10).map(r=>`
+    <tr><td>${esc(r.date)}</td><td>${fmtTime12(r.time)}</td><td>${r.value} ${esc(t(r.unit))}</td><td>${esc(t(r.meal))}</td></tr>
+  `).join('');
+  return `
+    <div class="card">
+      <button class="btn btn-primary" onclick="openAddSugar()">${esc(t('addReading'))}</button>
+    </div>
+    <div class="sectiontitle">${esc(t('history'))}</div>
+    ${readings.length ? `<div class="card"><table class="logtable">
+      <tr><th>${esc(t('date'))}</th><th>${esc(t('time'))}</th><th>${esc(t('glucose'))}</th><th></th></tr>
+      ${rows}
+    </table></div>` : `<div class="empty-state">${esc(t('noSugarYet'))}</div>`}
+  `;
+}
+function openAddSugar(){
+  openModal(`
+    <h3 style="margin-top:0">${esc(t('sugarTracker'))}</h3>
+    <label class="field-label">${esc(t('glucose'))}</label>
+    <div style="display:flex;gap:8px">
+      <input type="number" id="sg-value" style="flex:1" />
+      <select id="sg-unit" style="width:120px">
+        <option value="mgdl">mg/dL</option>
+        <option value="mmol">mmol/L</option>
+      </select>
+    </div>
+    <label class="field-label">${esc(t('beforeMeal'))} / ${esc(t('afterMeal'))}</label>
+    <select id="sg-meal">
+      <option value="beforeMeal">${esc(t('beforeMeal'))}</option>
+      <option value="afterMeal">${esc(t('afterMeal'))}</option>
+    </select>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="field-label">${esc(t('date'))}</label><input type="date" id="sg-date" value="${todayStr()}" /></div>
+      <div><label class="field-label">${esc(t('time'))}</label><input type="time" id="sg-time" value="${new Date().toTimeString().slice(0,5)}" /></div>
+    </div>
+    <label class="field-label">${esc(t('notes'))}</label>
+    <textarea id="sg-notes"></textarea>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-ghost" onclick="closeModal()">${esc(t('cancel'))}</button>
+      <button class="btn btn-primary" onclick="saveSugar()">${esc(t('save'))}</button>
+    </div>
+  `);
+}
+function saveSugar(){
+  const value = parseFloat(document.getElementById('sg-value').value);
+  if(!value) return;
+  state.sugar.push({
+    id:uid(), value, unit:document.getElementById('sg-unit').value,
+    meal:document.getElementById('sg-meal').value,
+    date:document.getElementById('sg-date').value, time:document.getElementById('sg-time').value,
+    notes:document.getElementById('sg-notes').value.trim()
+  });
+  scheduleSave(); closeModal(); render();
+}
+
+function last7Dates(){
+  const arr = [];
+  const d = new Date();
+  for(let i=0;i<7;i++){ arr.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')); d.setDate(d.getDate()-1); }
+  return arr;
+}
+
+function viewProgress(){
+  const dates = last7Dates();
+  const days = dates.map(d=> state.history[d]).filter(Boolean);
+  const days7 = days.length;
+  const medsCompletedPct = days7 ? Math.round(days.reduce((a,d)=> a + (d.medsTotal? d.medsDone/d.medsTotal : 1), 0)/days7*100) : 0;
+  const mealsCompletedPct = days7 ? Math.round(days.reduce((a,d)=> a + (d.mealsTotal? d.mealsDone/d.mealsTotal : 0), 0)/days7*100) : 0;
+  const walkDaysCount = days.filter(d=>d.walkMinutes >= d.walkGoal).length;
+  const avgWalk = days7 ? Math.round(days.reduce((a,d)=>a+d.walkMinutes,0)/days7) : 0;
+  const sleepDaysCount = days.filter(d=>d.sleepHours!==null && d.sleepHours>=d.sleepGoal).length;
+  const waterDaysCount = days.filter(d=>d.water >= d.waterGoal).length;
+
+  return `
+    <div class="toprow"><h1 style="margin:0;font-size:22px">${esc(t('progress'))}</h1>${langSwitch()}</div>
+
+    <div class="sectiontitle">${esc(t('streaks'))}</div>
+    <div class="streakrow" style="margin-bottom:18px">
+      <div class="streakcard"><div style="font-size:20px">\ud83d\udd25</div><div class="num">${state.streaks.walk}</div><div class="faint">${esc(t('walkStreak'))}</div></div>
+      <div class="streakcard"><div style="font-size:20px">\ud83d\udca7</div><div class="num">${state.streaks.water}</div><div class="faint">${esc(t('waterStreak'))}</div></div>
+      <div class="streakcard"><div style="font-size:20px">\ud83d\ude34</div><div class="num">${state.streaks.sleep}</div><div class="faint">${esc(t('sleepStreak'))}</div></div>
+    </div>
+
+    <div class="sectiontitle">${esc(t('weeklyReport'))}</div>
+    <div class="card">
+      <div class="row" style="margin-bottom:12px"><span>${esc(t('medsCompleted'))}</span><b>${medsCompletedPct}%</b></div>
+      <div class="row" style="margin-bottom:12px"><span>${esc(t('mealsCompleted'))}</span><b>${mealsCompletedPct}%</b></div>
+      <div class="row" style="margin-bottom:12px"><span>${esc(t('walkDays'))}</span><b>${walkDaysCount} / ${days7}</b></div>
+      <div class="row" style="margin-bottom:12px"><span>${esc(t('avgWalk'))}</span><b>${avgWalk} ${esc(t('minutes'))}</b></div>
+      <div class="row" style="margin-bottom:12px"><span>${esc(t('sleepDays'))}</span><b>${sleepDaysCount} / ${days7}</b></div>
+      <div class="row"><span>${esc(t('waterDays'))}</span><b>${waterDaysCount} / ${days7}</b></div>
+      <div class="faint" style="margin-top:12px">${esc(t('weeklyNote'))}</div>
+    </div>
+
+    ${state.profile.familySupport ? familyStatusCard() : ''}
+  `;
+}
+
+function familyStatusCard(){
+  const s = state.today;
+  const meds = state.medicines.filter(m=>m.active!==false);
+  const medsOk = meds.length===0 || meds.every(m=>s.completed['med_'+m.id]);
+  const mealIds = state.schedule.filter(x=>x.type==='meal').map(x=>x.id);
+  const mealsSome = mealIds.some(id=>s.completed[id]);
+  let status = 'statusGood', color='var(--success)', emoji='\ud83d\udfe2';
+  if(!medsOk){ status='statusMissed'; color='var(--danger)'; emoji='\ud83d\udd34'; }
+  else if(!mealsSome){ status='statusSome'; color='var(--warn)'; emoji='\ud83d\udfe1'; }
+  return `<div class="sectiontitle">${esc(t('familySupport'))}</div>
+    <div class="card"><div class="row"><span style="font-size:15px;font-weight:600;color:${color}">${emoji} ${esc(t(status))}</span></div></div>`;
+}
+
+function viewSettings(){
+  const p = state.profile;
+  return `
+    <div class="toprow"><h1 style="margin:0;font-size:22px">${esc(t('settings'))}</h1>${langSwitch()}</div>
+
+    <div class="sectiontitle">${esc(t('profileName'))}</div>
+    <div class="card">
+      <label class="field-label">${esc(t('profileName'))}</label>
+      <input type="text" id="set-name" value="${esc(p.name)}" onchange="updateProfile('name', this.value)" />
+    </div>
+
+    <div class="sectiontitle">${esc(t('goals'))}</div>
+    <div class="card">
+      <label class="field-label">${esc(t('wakeTime'))}</label>
+      <input type="time" value="${p.wakeTime}" onchange="updateProfile('wakeTime', this.value)" />
+      <label class="field-label">${esc(t('bedtime'))}</label>
+      <input type="time" value="${p.sleepTime}" onchange="updateProfile('sleepTime', this.value)" />
+      <label class="field-label">${esc(t('walkGoalLabel'))}</label>
+      <input type="number" min="5" value="${p.walkGoal}" onchange="updateProfile('walkGoal', parseInt(this.value)||60)" />
+      <label class="field-label">${esc(t('waterGoalLabel'))}</label>
+      <input type="number" min="1" value="${p.waterGoal}" onchange="updateProfile('waterGoal', parseInt(this.value)||8)" />
+      <label class="field-label">${esc(t('sleepGoalLabel'))}</label>
+      <input type="number" min="1" max="14" value="${p.sleepGoal}" onchange="updateProfile('sleepGoal', parseFloat(this.value)||8)" />
+    </div>
+
+    <div class="sectiontitle">${esc(t('reminders'))}</div>
+    <div class="card">
+      <div class="row"><span>${esc(t('notifOn'))}</span><button class="toggle ${p.notifEnabled?'on':''}" onclick="toggleProfile('notifEnabled')"></button></div>
+      <label class="field-label">${esc(t('snoozeDuration'))}</label>
+      <input type="number" min="1" max="60" value="${p.snooze}" onchange="updateProfile('snooze', parseInt(this.value)||10)" />
+      <label class="field-label">${esc(t('notifSound'))}</label>
+      <select onchange="updateProfile('notifSound', this.value)">
+        <option value="chime" ${p.notifSound==='chime'?'selected':''}>Chime</option>
+        <option value="bell" ${p.notifSound==='bell'?'selected':''}>Bell</option>
+        <option value="soft" ${p.notifSound==='soft'?'selected':''}>Soft tone</option>
+      </select>
+    </div>
+
+    <div class="sectiontitle">${esc(t('familySupport'))}</div>
+    <div class="card">
+      <div class="row">
+        <div style="flex:1;padding-right:10px" class="muted">${esc(t('familySupportDesc'))}</div>
+        <button class="toggle ${p.familySupport?'on':''}" onclick="toggleProfile('familySupport')"></button>
+      </div>
+    </div>
+
+    <div class="sectiontitle">${esc(t('healthSafety'))}</div>
+    <div class="safety-banner">
+      <div style="margin-bottom:8px"><b>\u2022</b> ${esc(t('safetyLine1'))}</div>
+      <div style="margin-bottom:8px"><b>\u2022</b> ${esc(t('safetyLine2'))}</div>
+      <div><b>\u2022</b> ${esc(t('safetyLine3'))}</div>
+    </div>
+  `;
+}
+function updateProfile(key, val){ state.profile[key] = val; scheduleSave(); render(); }
+function toggleProfile(key){ state.profile[key] = !state.profile[key]; scheduleSave(); render(); }
+
+function openModal(innerHtml){
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'modal-overlay';
+  overlay.onclick = (e)=>{ if(e.target.id==='modal-overlay') closeModal(); };
+  overlay.innerHTML = `<div class="modal-sheet">${innerHtml}</div>`;
+  document.getElementById('app').appendChild(overlay);
+}
+function closeModal(){
+  const el = document.getElementById('modal-overlay');
+  if(el) el.remove();
+}
+
+const WIZARD_STEPS = ['welcome','name','lang','wake','sleep','walk','water','meds','notif','done'];
+
+function renderWizard(){
+  const stepKey = WIZARD_STEPS[wizardStep];
+  const el = document.getElementById('screen');
+  const idx = wizardStep;
+  const total = WIZARD_STEPS.length - 2;
+  const dots = (idx>0 && idx<WIZARD_STEPS.length-1) ? `<div class="dotrow">${Array.from({length:total}).map((_,i)=>`<div class="${i < idx ? 'done':''}"></div>`).join('')}</div>` : '';
+
+  let body = '';
+  let footButtons = '';
+
+  if(stepKey==='welcome'){
+    body = `<div style="text-align:center;padding-top:40px">
+      <div style="font-size:52px;margin-bottom:18px">\u2764\ufe0f</div>
+      <h1 class="serif" style="font-size:26px;margin-bottom:10px">${esc(t('setupWelcome'))}</h1>
+      <div class="muted" style="font-size:15px">${esc(t('setupWelcomeSub'))}</div>
+    </div>`;
+    footButtons = `<button class="btn btn-primary" onclick="wizardNext()">${esc(t('getStarted'))}</button>`;
+  }
+  else if(stepKey==='name'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepName'))}</h2>
+      <input type="text" id="wiz-name" value="${esc(state.profile.name)}" placeholder="${esc(t('profileName'))}" />`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='lang'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepLang'))}</h2>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn ${state.profile.language==='en'?'btn-primary':'btn-ghost'}" style="flex:1" onclick="wizSetLang('en')">English</button>
+        <button class="btn ${state.profile.language==='ta'?'btn-primary':'btn-ghost'}" style="flex:1" onclick="wizSetLang('ta')">\u0ba4\u0bae\u0bbf\u0bb4\u0bcd</button>
+      </div>`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='wake'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepWake'))}</h2>
+      <input type="time" id="wiz-wake" value="${state.profile.wakeTime}" />`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='sleep'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepSleep'))}</h2>
+      <input type="time" id="wiz-sleep" value="${state.profile.sleepTime}" />`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='walk'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepWalk'))}</h2>
+      <input type="number" min="5" id="wiz-walk" value="${state.profile.walkGoal}" />`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='water'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepWater'))}</h2>
+      <input type="number" min="1" id="wiz-water" value="${state.profile.waterGoal}" />`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='meds'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepMeds'))}</h2>
+      <div class="muted" style="margin-bottom:14px">${esc(t('stepMedsSub'))}</div>
+      <div id="wiz-medlist">${wizardMedList()}</div>
+      <button class="btn btn-ghost" style="margin-top:10px" onclick="wizardAddMed()">${esc(t('addMedicine'))}</button>`;
+    footButtons = wizardFooter(false);
+  }
+  else if(stepKey==='notif'){
+    body = `${dots}<h2 style="margin-top:0">${esc(t('stepNotif'))}</h2>
+      <div class="muted" style="margin-bottom:16px">${esc(t('stepNotifSub'))}</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn ${state.profile.notifEnabled?'btn-primary':'btn-ghost'}" style="flex:1" onclick="wizSetNotif(true)">${esc(t('notifOn'))}</button>
+        <button class="btn ${!state.profile.notifEnabled?'btn-primary':'btn-ghost'}" style="flex:1" onclick="wizSetNotif(false)">${esc(t('notifOff'))}</button>
+      </div>`;
+    footButtons = wizardFooter(true);
+  }
+  else if(stepKey==='done'){
+    body = `<div style="text-align:center;padding-top:40px">
+      <div style="font-size:52px;margin-bottom:18px">\u2764\ufe0f</div>
+      <h1 class="serif" style="font-size:24px;margin-bottom:10px">${esc(t('setupDone'))}</h1>
+      <div class="muted">${esc(t('setupDoneSub'))}</div>
+    </div>`;
+    footButtons = `<button class="btn btn-primary" onclick="finishWizard()">${esc(t('finish'))}</button>`;
+  }
+
+  el.innerHTML = `<div class="wizard-body">${body}</div><div class="wizard-foot">${footButtons}</div>`;
+}
+
+function wizardFooter(showSkip){
+  let html = '';
+  if(wizardStep>0) html += `<button class="btn btn-ghost" onclick="wizardBack()">${esc(t('back'))}</button>`;
+  html += `<button class="btn btn-primary" onclick="wizardNext()">${esc(t('next'))}</button>`;
+  return html;
+}
+
+function wizardMedList(){
+  if(!state.medicines.length) return '';
+  return state.medicines.map(m=>`<div class="card-soft row"><span>${esc(m.name)} \u2014 ${fmtTime12(m.time)}</span><button class="btn btn-danger-ghost btn-sm" onclick="wizardDeleteMed('${m.id}')">\u2715</button></div>`).join('');
+}
+function wizardAddMed(){
+  editMedicine(null);
+}
+function wizardDeleteMed(id){
+  state.medicines = state.medicines.filter(m=>m.id!==id);
+  scheduleSave(); renderWizard();
+}
+function wizSetLang(l){ state.profile.language = l; applyLangClass(); scheduleSave(); renderWizard(); }
+function wizSetNotif(v){ state.profile.notifEnabled = v; scheduleSave(); renderWizard(); }
+
+function wizardCaptureStep(){
+  const stepKey = WIZARD_STEPS[wizardStep];
+  if(stepKey==='name'){ state.profile.name = document.getElementById('wiz-name').value.trim(); }
+  if(stepKey==='wake'){ state.profile.wakeTime = document.getElementById('wiz-wake').value; }
+  if(stepKey==='sleep'){ state.profile.sleepTime = document.getElementById('wiz-sleep').value; }
+  if(stepKey==='walk'){ state.profile.walkGoal = parseInt(document.getElementById('wiz-walk').value)||60; }
+  if(stepKey==='water'){ state.profile.waterGoal = parseInt(document.getElementById('wiz-water').value)||8; }
+}
+function wizardNext(){
+  wizardCaptureStep();
+  scheduleSave();
+  wizardStep = Math.min(WIZARD_STEPS.length-1, wizardStep+1);
+  renderWizard();
+}
+function wizardBack(){
+  wizardCaptureStep();
+  wizardStep = Math.max(0, wizardStep-1);
+  renderWizard();
+}
+function finishWizard(){
+  const schedItem = state.schedule.find(x=>x.id==='wake'); if(schedItem) schedItem.time = state.profile.wakeTime;
+  const sleepItem = state.schedule.find(x=>x.id==='sleep'); if(sleepItem) sleepItem.time = state.profile.sleepTime;
+  state.setupComplete = true;
+  scheduleSave();
+  render();
+}
+
+// close modal on Escape
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+loadState();
+</script>
+</body>
+</html>
